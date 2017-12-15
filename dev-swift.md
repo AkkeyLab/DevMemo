@@ -16,20 +16,32 @@ DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
 ```
 参考：[[Swift 3] Swift 3時代のGCDの基本的な使い方](https://dev.classmethod.jp/smartphone/iphone/swift-3-how-to-use-gcd-api-1/)
 
----
-
+## クロージャ
 非同期処理が完了もしくは失敗した段階で値を返したい場合がある。このような場合はクロージャを用いて実現する。
 ```swift
-func getUserData(success: ((Bool) -> Void)?, failure: ((Bool) -> Void)?) {
-    success?(true)
-    failure?(false)
+class Model {
+    func getUserData(success: ((Bool) -> Void)?, failure: ((Bool) -> Void)?) {
+        success?(true)
+        failure?(false)
+    }
 }
 
 // 呼び出し側
+let model = Model()
 model.getUserData(success: { res in
     print(res ? "TRUE" : "FALSE")
 }, failure: { res in
     print(res ? "TRUE" : "FALSE")
+})
+```
+
+---
+
+クロージャ内で `self` を用いる場合は `[weak self]` を利用しなければならない状況がある。以下のように実装を行う。ただし、 `self` を新しい変数として利用することもできる。
+```swift
+mmm.subscribe({ [weak self] in
+    guard let `self` = self else { return }
+    self.label.text = ""
 })
 ```
 
@@ -49,4 +61,29 @@ buttonStackView.arrangedSubviews.flatMap { $0 as? UIButton }.forEach {buttonView
     self.buttonStackView.removeArrangedSubview(buttonView)
     buttonView.removeFromSuperview()
 }
+```
+
+## Storyboard
+Storyboard と対になる Class の名前が互いに同じ場合、以下の方法でインスタンス化することができる。
+```swift
+class Storyboard {
+    static func instantiate<T: UIViewController>(_ type: T.Type) -> T {
+        let storyboard = UIStoryboard(name: String(describing: type), bundle: Bundle.main)
+        return storyboard.instantiateInitialViewController() as! T
+    }
+}
+
+let vc = Storyboard.instantiate(NextPageViewController.self)
+self.navigationController?.pushViewController(vc, animated: true)
+```
+
+## Animation
+AutoLayout を用いて制約をつけているパーツをアニメーションさせる場合、 `self.view.layoutIfNeeded()` を呼ぶ必要がある。
+```swift
+@IBOutlet private weak var viewTop: NSLayoutConstraint?
+self.view.layoutIfNeeded()
+viewTop.constant = 10
+UIView.animate(withDuration: 0.5, animations: {
+    self.view.layoutIfNeeded()
+}, completion: nil)
 ```
