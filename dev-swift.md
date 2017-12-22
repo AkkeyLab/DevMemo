@@ -87,3 +87,68 @@ UIView.animate(withDuration: 0.5, animations: {
     self.view.layoutIfNeeded()
 }, completion: nil)
 ```
+
+## UIPickerView
+UITextField に UIPickerView での変更をリアルタイムで反映させる表示方法を簡単に実現することができる。**UITextField** の inputView に UIPickerView を設定することで実現可能である。
+```swift
+private var textField: UITextField?
+private var picker: UIPickerView?
+
+override func viewDidLoad() {
+    picker = UIPickerView()
+    picker?.dataSource = self
+    picker?.delegate = self
+
+    textField = UITextField()
+    // UITextField の inputView に UIPickerView を設定
+    // inputAccessoryView で KeyboardAccessary も設定可能
+    textField?.inputView = picker
+
+    // 初期位置の設定
+    picker.selectRow(data[1], inComponent: 0, animated: true)
+}
+
+func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    return 1
+}
+
+func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    return data.count
+}
+
+func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    return data[row].text
+}
+
+func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    guard let picker = self.picker else { return }
+    // リアルタイム更新
+    textField.text = self.pickerView(picker, titleForRow: row, forComponent: 0)
+}
+```
+
+## UIDatePicker
+UITextField に UIDatePicker での変更をリアルタイムで反映させる表示方法を簡単に実現することができる。**UITextField** の inputView に UIDatePicker を設定することで実現可能である。
+``` swift
+private var textField: UITextField?
+private var picker: UIDatePicker?
+
+override func viewDidLoad() {
+    picker = UIDatePicker()
+    // 各種設定
+    picker?.datePickerMode = .date
+    picker?.calendar = Calendar(identifier: .gregorian)
+    // picker の値が変動したときに呼ばれる関数の設定
+    picker?.addTarget(self, action: #selector(change), for: .valueChanged)
+    // UITextField の inputView に UIDatePicker を設定
+    // inputAccessoryView で KeyboardAccessary も設定可能
+    textField?.inputView = picker
+
+    // 初期位置の設定
+    picker.setDate(day, animated: true)
+}
+
+@objc private func change() {
+  textField.text = picker.date
+}
+```
