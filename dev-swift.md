@@ -2,6 +2,29 @@
 個人的に初めて知ったことや、覚えておきたいと思ったことをまとめていきます。  
 この資料を参考にする場合は自己責任でお願いします。
 
+- [可読性](#可読性)
+- [非同期処理](#非同期処理)
+- [クロージャ](#クロージャ)
+- [分岐処理](#分岐処理)
+- [StackView](#stackview)
+- [Storyboard](#storyboard)
+- [Animation](#animation)
+- [UIPickerView](#uipickerview)
+- [UIDatePicker](#uidatepicker)
+
+## 可読性
+`isEmpty` を使用して、なおかつ `!` で真偽値を反転すると、最終的に **文字列が格納されているか** を判定したいという意味がわかりにくくなる。そこで、以下の改善後のように明示的に **どうであってほしいか** を判定式に盛り込むことで可読性を上げることができる。また、複数の判定が関係する場合は同じ形式に揃えることも検討すべきである。
+```swift
+// 改善前
+if !(data.apple.isEmpty) && !(data.swift.isEmpty) && data.user == .akkey {
+    print("done")
+}
+// 改善後
+if data.apple.isEmpty == false && data.swift.isEmpty == false && data.isAkkey == true {
+    print("done")
+}
+```
+
 ## 非同期処理
 Swift の GCD (Grand Central Dispatch) を用いてマルチスレッド処理の実行を行います。
 非同期処理は `async` 系を利用します。明示的に同期処理を実現する場合は `sync` 系を利用します。
