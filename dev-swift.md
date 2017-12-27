@@ -34,6 +34,7 @@ if data.apple.isEmpty == false && data.swift.isEmpty == false && data.isAkkey ==
 `internal` | モジュール内に限りアクセスできる
 `fileprivate` | ファイル内に限りアクセスできる
 `private` | 宣言した中に限りアクセスできる、 extension 内からもアクセス可能
+
 \* モジュール : import を使って取り組むプログラム群  
 参考：[\[Swift 3.0\] アクセス修飾子にopenとfileprivateが追加された話](https://dev.classmethod.jp/smartphone/iphone/swift3_scoped_access_level/)
 
