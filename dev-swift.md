@@ -3,6 +3,7 @@
 この資料を参考にする場合は自己責任でお願いします。
 
 - [可読性](#可読性)
+- [アクセス修飾子](#アクセス修飾子)
 - [非同期処理](#非同期処理)
 - [クロージャ](#クロージャ)
 - [分岐処理](#分岐処理)
@@ -23,6 +24,33 @@ if !(data.apple.isEmpty) && !(data.swift.isEmpty) && data.user == .akkey {
 if data.apple.isEmpty == false && data.swift.isEmpty == false && data.isAkkey == true {
     print("done")
 }
+```
+
+## アクセス修飾子
+アクセス修飾子 | 挙動
+----- | -----
+`open` | モジュール外からもアクセスできる
+`public` | モジュール外からもアクセスできる、サブクラス化されない、 override できない
+`internal` | モジュール内に限りアクセスできる
+`fileprivate` | ファイル内に限りアクセスできる
+`private` | 宣言した中に限りアクセスできる、 extension 内からもアクセス可能
+\* モジュール : import を使って取り組むプログラム群  
+参考：[\[Swift 3.0\] アクセス修飾子にopenとfileprivateが追加された話](https://dev.classmethod.jp/smartphone/iphone/swift3_scoped_access_level/)
+
+---
+
+set のみ private にして、 get は public にしたい場合がある。これを実現する方法は複数あるが、 Swift であれば比較的簡単に実現できるので、比較して以下にします。 `private(set)` とすることで setter のみを private にすることができる。逆に、 get を private にして set を public にすることは一般的にすべきでない。
+```swift
+// 一般的な方法
+private var _data: String = ""
+public var data: String {
+    return _data
+}
+_data = "AKKEY"
+
+// 修正後
+public private(set) var data: String = ""
+data = "AKKEY"
 ```
 
 ## 非同期処理
