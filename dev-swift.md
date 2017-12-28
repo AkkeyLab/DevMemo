@@ -4,9 +4,11 @@
 
 - [可読性](#可読性)
 - [アクセス修飾子](#アクセス修飾子)
+- [定数と変数](#定数と変数)
 - [非同期処理](#非同期処理)
 - [クロージャ](#クロージャ)
 - [分岐処理](#分岐処理)
+- [メソッド](#メソッド)
 - [StackView](#stackview)
 - [Storyboard](#storyboard)
 - [Animation](#animation)
@@ -52,6 +54,38 @@ _data = "AKKEY"
 // 修正後
 public private(set) var data: String = ""
 data = "AKKEY"
+```
+
+## 定数と変数
+変数定義の方法を複数紹介する。
+```swift
+// ポインタアドレスの固定なので可能
+// ただし、 Array や Dictionary はアドレス変更が必要なので不可
+let data = User()
+data.value = 8
+
+// setter と getter
+var value: Int {
+    get { return 0 }
+    set { _ = newValue }
+}
+
+// getter
+let value: Int {
+    return 0
+}
+
+// didSet
+var value: Int = 0 {
+    didSet {
+        self.update()
+    }
+}
+
+// 使うときに初期化される
+lazy var data: User = {
+    return User()
+}()
 ```
 
 ## 非同期処理
@@ -103,6 +137,18 @@ mmm.subscribe({ [weak self] in
 var str: String?
 str = nil
 print(str ?? "NG") // NG
+```
+
+## メソッド
+引数の値に初期値を設定することができる。初期値を設定している引数に関しては、値を渡さずにメソッドを呼ぶことができる。
+```swift
+func createData(name: String, number: Int = 0, plus: String = "nil") -> String {
+    return "\(name) | \(number) | \(plus)"
+}
+
+createData(name: "AKIO") // "AKIO | 0 | nil"
+createData(name: "AKIO", number: 8) // "AKIO | 8 | nil"
+createData(name: "AKIO", number: 8, plus: "OK") // "AKIO | 8 | OK"
 ```
 
 ## StackView
