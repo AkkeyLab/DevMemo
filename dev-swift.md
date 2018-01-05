@@ -81,6 +81,11 @@ var value: Int = 0 {
         self.update()
     }
 }
+var value: Int! {
+    didSet {
+        value = 100
+    }
+}
 
 // 使うときに初期化される
 lazy var data: User = {
