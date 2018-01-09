@@ -93,6 +93,23 @@ lazy var data: User = {
 }()
 ```
 
+---
+
+`type(of:)` を利用することで型名を取得することができる。
+```swift
+let moji = "moji"
+print(type(of: moji)) // "String\n"
+
+class akkey {
+    func main() {
+        print("My name is \(type(of: self))")
+    }
+}
+
+let classObj = akkey()
+classObj.main() // "My name is akkey\n"
+```
+
 ## 非同期処理
 Swift の GCD (Grand Central Dispatch) を用いてマルチスレッド処理の実行を行います。
 非同期処理は `async` 系を利用します。明示的に同期処理を実現する場合は `sync` 系を利用します。
