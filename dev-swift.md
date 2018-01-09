@@ -42,7 +42,7 @@ if data.apple.isEmpty == false && data.swift.isEmpty == false && data.isAkkey ==
 
 ---
 
-set のみ private にして、 get は public にしたい場合がある。これを実現する方法は複数あるが、 Swift であれば比較的簡単に実現できるので、比較して以下にします。 `private(set)` とすることで setter のみを private にすることができる。逆に、 get を private にして set を public にすることは一般的にすべきでない。
+set のみ private にして、 get は public にしたい場合がある。これを実現する方法は複数あるが、 Swift であれば比較的簡単に実現できるので、比較して以下に示す。 `private(set)` とすることで setter のみを private にすることができる。逆に、 get を private にして set を public にすることは一般的にすべきでない。
 ```swift
 // 一般的な方法
 private var _data: String = ""
@@ -111,8 +111,8 @@ classObj.main() // "My name is akkey\n"
 ```
 
 ## 非同期処理
-Swift の GCD (Grand Central Dispatch) を用いてマルチスレッド処理の実行を行います。
-非同期処理は `async` 系を利用します。明示的に同期処理を実現する場合は `sync` 系を利用します。
+Swift の GCD (Grand Central Dispatch) を用いてマルチスレッド処理の実行を行う。
+非同期処理は `async` 系を利用する。明示的に同期処理を実現する場合は `sync` 系を利用する。
 
 ---
 
