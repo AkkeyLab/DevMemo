@@ -9,11 +9,13 @@
 - [クロージャ](#クロージャ)
 - [分岐処理](#分岐処理)
 - [メソッド](#メソッド)
+- [protocol](#protocol)
 - [StackView](#stackview)
 - [Storyboard](#storyboard)
 - [Animation](#animation)
 - [UIPickerView](#uipickerview)
 - [UIDatePicker](#uidatepicker)
+- [Delegate](#delegate)
 
 ## 可読性
 `isEmpty` を使用して、なおかつ `!` で真偽値を反転すると、最終的に **文字列が格納されているか** を判定したいという意味がわかりにくくなる。そこで、以下の改善後のように明示的に **どうであってほしいか** を判定式に盛り込むことで可読性を上げることができる。また、複数の判定が関係する場合は同じ形式に揃えることも検討すべきである。
@@ -173,6 +175,41 @@ createData(name: "AKIO", number: 8) // "AKIO | 8 | nil"
 createData(name: "AKIO", number: 8, plus: "OK") // "AKIO | 8 | OK"
 ```
 
+## protocol
+protocol は extension で拡張することができる。この機能を利用することで、ある Class に対して外部からメソッドを追加するという仕組みを実現することができる。
+```swift
+protocol GoldProtocol {
+    func createGold()
+}
+
+extension GoldProtocol {
+    func createGold() { print("GOLD") }
+    func newFunction() { print("NEW") }
+//  func noneProcess() // Error
+}
+
+class GoldClass: GoldProtocol { }
+
+GoldClass().createGold() // "GOLD\n"
+GoldClass().newFunction() // "NEW\n"
+```
+
+また、どの Class に対して機能拡張を行うかを指定することも可能である。
+```swift
+protocol VCProtocol {
+    func createVC()
+}
+
+extension VCProtocol where Self: UIViewController {
+    func createVC() { print("CREATE") }
+}
+
+class VCClass: UIViewController, VCProtocol { }
+// class VVClass: VCProtocol { } // Error
+
+VCClass().createVC() // "CREATE\n"
+```
+
 ## StackView
 コード側から StackView に追加した button を削除するには二段階の remove が必要になる。まず、 StackView から削除対象の button を `removeArrangedSubview` で削除する。次に、削除対象の button に対して `removeFromSuperview` を呼ぶ必要がある。また、 StackView から対象の button を探す場合は `flatMap` を使用する方法がある。
 ```swift
@@ -271,4 +308,57 @@ override func viewDidLoad() {
 @objc private func change() {
   textField.text = picker.date
 }
+```
+
+## Delegate
+Swift によるコードサンプルを以下に示す。
+なお、 protocol 宣言時に class を継承させているため、 class に対してのみ使用できるようになっている例である。
+```swift
+protocol GoldProtocol: class {
+    func createGold()
+}
+
+class GoldClass: GoldProtocol {
+    func createGold() { print("GOLD") }
+}
+
+class MainClass {
+    weak var delegate: GoldProtocol!
+
+    func useDelegate() {
+        delegate.createGold()
+    }
+}
+
+let main = MainClass()
+let gold = GoldClass()
+main.delegate = gold
+main.useDelegate() // "GOLD\n"
+```
+
+protocol の extension を利用すると以下のように実装することも可能である。
+```swift
+protocol GoldProtocol: class {
+    func createGold()
+}
+
+extension GoldProtocol {
+    func createGold() { print("GOLD") }
+    func newFunction() { print("NEW") }
+}
+
+class GoldClass: GoldProtocol { }
+
+class MainClass {
+    weak var delegate: GoldProtocol!
+
+    func useDelegate() {
+        delegate.createGold()
+    }
+}
+
+let main = MainClass()
+let gold = GoldClass()
+main.delegate = gold
+main.useDelegate() // "GOLD\n"
 ```
