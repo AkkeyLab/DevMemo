@@ -10,6 +10,7 @@
 - [分岐処理](#分岐処理)
 - [メソッド](#メソッド)
 - [protocol](#protocol)
+- [enum](#enum)
 - [StackView](#stackview)
 - [Storyboard](#storyboard)
 - [Animation](#animation)
@@ -208,6 +209,30 @@ class VCClass: UIViewController, VCProtocol { }
 // class VVClass: VCProtocol { } // Error
 
 VCClass().createVC() // "CREATE\n"
+```
+
+## enum
+enum は定義場所によって呼び出し方が変わってくる。
+```swift
+enum globalEnum: String {
+    case name = "NAME"
+}
+
+class EnumTest {
+    enum localEnum: String {
+        case name = "NAME"
+    }
+}
+
+class EnumUsingTest {
+    func main() {
+        print(globalEnum.name.rawValue) // "NAME\n"
+//        print(localEnum.name) // Error
+        print(EnumTest.localEnum.name.rawValue) // "NAME\n"
+    }
+}
+
+EnumUsingTest().main()
 ```
 
 ## StackView
