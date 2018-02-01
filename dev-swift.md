@@ -17,6 +17,7 @@
 - [UIPickerView](#uipickerview)
 - [UIDatePicker](#uidatepicker)
 - [Delegate](#delegate)
+- [その他便利](#その他便利)
 
 ## 可読性
 `isEmpty` を使用して、なおかつ `!` で真偽値を反転すると、最終的に **文字列が格納されているか** を判定したいという意味がわかりにくくなる。そこで、以下の改善後のように明示的に **どうであってほしいか** を判定式に盛り込むことで可読性を上げることができる。また、複数の判定が関係する場合は同じ形式に揃えることも検討すべきである。
@@ -386,4 +387,11 @@ let main = MainClass()
 let gold = GoldClass()
 main.delegate = gold
 main.useDelegate() // "GOLD\n"
+```
+
+## その他便利
+`String` 型の文字列先頭を簡単に大文字にすることができる。
+```swift
+let mmoji: String = "moji"
+mmoji.capitalized // "Moji"
 ```
