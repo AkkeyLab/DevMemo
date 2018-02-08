@@ -395,3 +395,21 @@ main.useDelegate() // "GOLD\n"
 let mmoji: String = "moji"
 mmoji.capitalized // "Moji"
 ```
+
+---
+
+文字列比較は以下のようにできる。
+```swift
+let twString = "Twitter 連携による施策です。これからもよろしくお願いします。"
+if twString.contains("Twitter 連携による施策です。") {
+    print("文字列一致") // 実行される
+}
+
+if twString.contains("twitter 連携による施策です。") {
+    print("文字列一致") // 実行されない
+}
+
+if twString.lowercased().contains("twitter 連携による施策です。") {
+    print("文字列一致") // 実行される
+}
+```
