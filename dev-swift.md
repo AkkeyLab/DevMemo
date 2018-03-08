@@ -260,6 +260,19 @@ let vc = Storyboard.instantiate(NextPageViewController.self)
 self.navigationController?.pushViewController(vc, animated: true)
 ```
 
+なお、 Xib ファイルの場合も同様に以下のように書くことができる。
+```swift
+class UIXibView {
+    static func instantiate<T: UIView>(_ type: T.Type) -> T {
+        let nib = UINib(nibName: String(describing: String(describing: type)), bundle: nil)
+        return nib.instantiate(withOwner: nil, options: nil)[0] as! T
+    }
+}
+
+let xib = UIXibView.instantiate(self)
+addSubview(xib)
+```
+
 ## Animation
 AutoLayout を用いて制約をつけているパーツをアニメーションさせる場合、 `self.view.layoutIfNeeded()` を呼ぶ必要がある。
 ```swift
@@ -412,4 +425,22 @@ if twString.contains("twitter 連携による施策です。") {
 if twString.lowercased().contains("twitter 連携による施策です。") {
     print("文字列一致") // 実行される
 }
+```
+
+---
+
+NavigationBar とその下のコンテンツとの間に表示される境界線を非表示にすることができる。方法としては、 NavigationBar の shadowImage を初期化して、空にしてしまうというものである。また、同様の方法でブラー表示部分も削除することができる。
+```swift
+let nc = navigationController?.navigationBar
+nc?.setBackgroundImage(.init(), for: .default) // ブラー削除
+nc?.shadowImage = .init() // 境界線削除
+```
+---
+
+以下のようにして addSubview した view を前面・背面に移動させることができる。
+```swift
+let view = UIView()
+addSubview(view)
+bringSubview(toFront: view) // 前面に移動
+sendSubview(toBack: view) // 背面に移動
 ```
