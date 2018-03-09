@@ -17,6 +17,7 @@
 - [UIPickerView](#uipickerview)
 - [UIDatePicker](#uidatepicker)
 - [Delegate](#delegate)
+- [Extension](#extension)
 - [その他便利](#その他便利)
 
 ## 可読性
@@ -400,6 +401,58 @@ let main = MainClass()
 let gold = GoldClass()
 main.delegate = gold
 main.useDelegate() // "GOLD\n"
+```
+
+## Extension
+extension を利用することで `UILabel().akkeyFunc` のように機能を追加することができるが、コードを読む上でこの機能がもとから存在していたものなのか、 extension で追加されたものなのかがはっきりしないという問題点がある。また、今後 Swift の update などで独自に追加した機能と同じものが標準搭載されることになった場合、コンフリクトを起こしてしまう。これらの問題解決策として **extension のメソッドにプレフィックスを付ける** ことを考えてみる。
+```swift
+public struct AkkeyTV<Base> {
+    public let base: Base
+    public init(_ base: Base) {
+        self.base = base
+    }
+}
+
+// ここの akkeytv プロパティは Rx の hoge.rx.hoge と同じように使える
+// この protocol を使うと akkeytv プロパティが使用可能となる
+// ただし、ここでは akkeytv の実装がされていない
+public protocol AkkeyTVCompatible {
+    associatedtype CompatibleType
+    static var akkeytv: AkkeyTV<CompatibleType>.Type { get set }
+    var akkeytv: AkkeyTV<CompatibleType> { get set }
+}
+
+// akkeytv プロパティの実装
+extension AkkeyTVCompatible {
+    public static var akkeytv: AkkeyTV<Self>.Type {
+        get {
+            return AkkeyTV<Self>.self
+        }
+        set { }
+    }
+    public var akkeytv: AkkeyTV<Self> {
+        get {
+            return AkkeyTV(self)
+        }
+        set { }
+    }
+}
+
+// NSObject で akkeytv プロパティが利用可能となった
+extension NSObject: AkkeyTVCompatible { }
+
+extension AkkeyTV where Base: UILabel {
+    func akkeyTextSet() {
+        base.text = "I love AkkeyTV app."
+    }
+}
+
+class useAkkeyTV: NSObject {
+    func main() {
+        let label = UILabel()
+        label.akkeytv.akkeyTextSet()
+    }
+}
 ```
 
 ## その他便利
