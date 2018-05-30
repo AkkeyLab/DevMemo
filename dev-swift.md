@@ -115,6 +115,17 @@ let classObj = akkey()
 classObj.main() // "My name is akkey\n"
 ```
 
+---
+
+定数を複数定義するときはenumを利用することできれいに定義することができる。
+```swift
+private final let margin = CGFloat(8)
+
+private enum Const {
+    static let margin = CGFloat(8)
+}
+```
+
 ## 非同期処理
 Swift の GCD (Grand Central Dispatch) を用いてマルチスレッド処理の実行を行う。
 非同期処理は `async` 系を利用する。明示的に同期処理を実現する場合は `sync` 系を利用する。
