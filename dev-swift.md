@@ -335,6 +335,14 @@ func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent c
 }
 ```
 
+---
+
+UIPickerView をコード側から手動で表示させることができる。方法としては UITextField をタップして編集モードに入れることで可能となる。よって、以下のように UITextField から becomeFirstResponder を呼ぶ。
+```swift
+let textField = UITextField()
+textField.becomeFirstResponder()
+```
+
 ## UIDatePicker
 UITextField に UIDatePicker での変更をリアルタイムで反映させる表示方法を簡単に実現することができる。**UITextField** の inputView に UIDatePicker を設定することで実現可能である。
 ``` swift
