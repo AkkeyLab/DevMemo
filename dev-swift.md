@@ -187,6 +187,30 @@ mmm.subscribe({ [weak self] in
 })
 ```
 
+---
+
+Kotlin に存在するスコープ関数の一つである apply を Swift で再現した処理記述することが可能である。
+例えば、自分自身のオブジェクトを作成して戻す create 関数などを呼ぶと同時に初期値を設定したい場合に有効活用できる。クロージャの中でインスタンス化したオブジェクト this に対する処理を行うことができる。
+```swift
+protocol ApplyProtocol {}
+extension ApplyProtocol {
+    @discardableResult
+    func apply(closure: (_ this: Self) -> Void) -> Self {
+        closure(self)
+        return self
+    }
+}
+extension NSObject: ApplyProtocol {}
+
+class Sample: NSObject {
+    static func create(type: SampleType) -> Self {
+        return UINibView.instantiate(self).apply { this in
+            this.setup(type: type)
+        }
+    }
+}
+```
+
 ## 分岐処理
 `nil` が返ってきたときに返す値を指定することができる。`(model.data.hoge ?? "").isEmpty` といった使い方をすることができる。
 ```swift
