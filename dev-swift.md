@@ -126,6 +126,24 @@ private enum Const {
 }
 ```
 
+---
+
+setter や getter を利用したい場合には以下のように実装するとよい。
+```swift
+class TextFieldView {
+    var placeholder: String {
+        set {
+            textField.placeholder = newValue
+        }
+        get {
+            return textField.placeholder ?? ""
+        }
+    }
+}
+let view = TextFieldView()
+view.placeholder = "Placeholder"
+```
+
 ## 非同期処理
 Swift の GCD (Grand Central Dispatch) を用いてマルチスレッド処理の実行を行う。
 非同期処理は `async` 系を利用する。明示的に同期処理を実現する場合は `sync` 系を利用する。
@@ -283,6 +301,14 @@ class UIXibView {
 
 let xib = UIXibView.instantiate(self)
 addSubview(xib)
+```
+
+---
+
+Xib で作成した View を既存の View に addSubview する場合に、既存の View サイズぴったりに貼り付けるには以下のようにサイズ指定を行う。なお、 StackView を利用するとオプションで指定するだけで実現することも可能である。
+```swift
+xibView.frame = view.bounds
+view.addSubview(xibView)
 ```
 
 ## Animation
