@@ -144,6 +144,18 @@ let view = TextFieldView()
 view.placeholder = "Placeholder"
 ```
 
+また、 getter だけを利用する場合は willSet を利用する。
+```swift
+var type: SampleType = .normal {
+    willSet(value) {
+        backgroundColor = value.color
+    }
+    didSet(value) {
+        // 変更前の値
+    }
+}
+```
+
 ## 非同期処理
 Swift の GCD (Grand Central Dispatch) を用いてマルチスレッド処理の実行を行う。
 非同期処理は `async` 系を利用する。明示的に同期処理を実現する場合は `sync` 系を利用する。
