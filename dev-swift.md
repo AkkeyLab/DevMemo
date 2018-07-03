@@ -148,10 +148,13 @@ view.placeholder = "Placeholder"
 ```swift
 var type: SampleType = .normal {
     willSet(value) {
-        backgroundColor = value.color
+        // 変更後の値
     }
     didSet(value) {
         // 変更前の値
+
+        // 現在の値を利用
+        backgroundColor = type.color
     }
 }
 ```
