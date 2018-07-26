@@ -18,6 +18,7 @@
 - [UIDatePicker](#uidatepicker)
 - [Delegate](#delegate)
 - [Extension](#extension)
+- [Library](#library)
 - [その他便利](#その他便利)
 
 ## 可読性
@@ -537,6 +538,15 @@ class useAkkeyTV: NSObject {
         label.akkeytv.akkeyTextSet()
     }
 }
+```
+
+## Library
+- Nuke
+Nuke を利用して描画した UIImageView が UICollectionViewCell などの再利用箇所に使用される場合、再利用時の初期化処理に気をつけなければならない。 NukeImageView の image を nil にするだけではキャッシュ機能が終了しないため、以下のようにタスク終了を行う必要がある。
+```swift
+let imageView = NukeImageView()
+Nuke.cancelRequest(for: imageView)
+imageView.image = nil
 ```
 
 ## その他便利
