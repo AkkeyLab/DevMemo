@@ -16,6 +16,8 @@
 - [Animation](#animation)
 - [UIPickerView](#uipickerview)
 - [UIDatePicker](#uidatepicker)
+- [UITableView](#uitableview)
+- [UILabel](#uilabel)
 - [Delegate](#delegate)
 - [Extension](#extension)
 - [Library](#library)
@@ -433,6 +435,37 @@ override func viewDidLoad() {
 @objc private func change() {
   textField.text = picker.date
 }
+```
+
+## UITableView
+UITableView の footer は UIView を利用する。以下のように実装することができる。
+```swift
+let tableView = UITableView()
+tableView.delegate = self
+
+extension AKTableViewController: UITableViewDelegate {
+    var footerHeight: CGFloat {
+        return 44
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: footerHeight))
+        footerView.backgroundColor = UIColor.blue
+        return footerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return footerHeight
+    }
+}
+```
+
+## UILabel
+UILabel 内に文字が入りきれなくなった場合にできるだけ全文を表示させたい時がある。その場合は文字サイズを小さくすることで対応が可能である。以下のように最大でどれくらいスケールダウンしてもよいかを指定する。
+```swift
+let label = UILabel()
+label.adjustsFontSizeToFitWidth = true
+label.minimumScaleFactor = 0.8 // 最大で 80% スケールダウン
 ```
 
 ## Delegate
