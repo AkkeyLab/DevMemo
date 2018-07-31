@@ -573,6 +573,15 @@ class useAkkeyTV: NSObject {
 }
 ```
 
+extension で値を持った変数を追加することはできません。ただし、以下のように変数を定義することは可能です。
+```swift
+extension UIView {
+    var computedProperty: String {
+        return "Akkey"
+    }
+}
+```
+
 ## Library
 - Nuke
 
