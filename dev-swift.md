@@ -20,6 +20,7 @@
 - [UILabel](#uilabel)
 - [Delegate](#delegate)
 - [Extension](#extension)
+- [RxSwift](#rxswift)
 - [Library](#library)
 - [その他便利](#その他便利)
 
@@ -580,6 +581,27 @@ extension UIView {
         return "Akkey"
     }
 }
+```
+
+## RxSwift
+subscribe の処理を記述するときに、 Optional な値を扱うために `guard let` を利用することがあるが、 `map` と `filterNil` を利用することで、綺麗に記述することができる。いかにその一例を示す。
+
+```swift
+private func addRxObserver() {
+    store.error
+        .subscribe(onNext: { [weak self] error in
+            guard let error = error as? ForgotPasswordError else { return }
+            switch error {
+            ...
+```
+```swift
+private func addRxObserver() {
+    store.error
+        .map { $0 as? ForgotPasswordError }
+        .filterNil()
+        .subscribe(onNext: { [weak self] error in
+            switch error {
+            ...
 ```
 
 ## Library
