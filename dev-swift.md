@@ -584,7 +584,7 @@ extension UIView {
 ```
 
 ## RxSwift
-subscribe の処理を記述するときに、 Optional な値を扱うために `guard let` を利用することがあるが、 `map` と `filterNil` を利用することで、綺麗に記述することができる。いかにその一例を示す。
+subscribe の処理を記述するときに、 渡ってくる Optional な値を扱うために `guard let` を利用することがあるが、 `map` と `filterNil` を利用することで、綺麗に記述することができる。いかにその一例を示す。
 
 ```swift
 private func addRxObserver() {
@@ -595,6 +595,7 @@ private func addRxObserver() {
             ...
 ```
 ```swift
+// Refactoring
 private func addRxObserver() {
     store.error
         .map { $0 as? ForgotPasswordError }
@@ -602,6 +603,36 @@ private func addRxObserver() {
         .subscribe(onNext: { [weak self] error in
             switch error {
             ...
+```
+```swift
+// RxSwift+FilterNil.swift
+// https://gist.github.com/gravicle/8fd14b940e97e6d4bc7ecfec3703fd2e
+import Foundation
+import RxSwift
+
+protocol OptionalType {
+    associatedtype Wrapped
+    var value: Wrapped? { get }
+}
+
+extension Optional: OptionalType {
+    var value: Wrapped? {
+        return self
+    }
+}
+
+extension Observable where Element: OptionalType {
+
+    func filterNil() -> Observable<Element.Wrapped> {
+        return flatMap { (element) -> Observable<Element.Wrapped> in
+            if let value = element.value {
+                return .just(value)
+            } else {
+                return .empty()
+            }
+        }
+    }
+}
 ```
 
 ## Library
