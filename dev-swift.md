@@ -584,13 +584,13 @@ extension UIView {
 ```
 
 ## RxSwift
-subscribe の処理を記述するときに、 渡ってくる Optional な値を扱うために `guard let` を利用することがあるが、 `map` と `filterNil` を利用することで、綺麗に記述することができる。いかにその一例を示す。
+subscribe の処理を記述するときに、 渡ってくる Optional な値を扱うために `guard let` を利用することがあるが、 `map` と `filterNil` を利用することで、綺麗に記述することができる。以下にその一例を示す。
 
 ```swift
 private func addRxObserver() {
     store.error
         .subscribe(onNext: { [weak self] error in
-            guard let error = error as? ForgotPasswordError else { return }
+            guard let error = error as? CustomError else { return }
             switch error {
             ...
 ```
@@ -598,7 +598,7 @@ private func addRxObserver() {
 // Refactoring
 private func addRxObserver() {
     store.error
-        .map { $0 as? ForgotPasswordError }
+        .map { $0 as? CustomError }
         .filterNil()
         .subscribe(onNext: { [weak self] error in
             switch error {
