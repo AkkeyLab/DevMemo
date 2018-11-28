@@ -461,6 +461,8 @@ extension AKTableViewController: UITableViewDelegate {
 }
 ```
 
+---
+
 UITableView の header の高さに AutoLayout を反映させたい場合は以下のような処理を実行する。 header の高さが変動するような処理を行ったらこの処理を実行して高さの変化を反映させる。
 ```swift
 private func sizeHeaderToFit() {
