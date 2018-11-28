@@ -461,6 +461,23 @@ extension AKTableViewController: UITableViewDelegate {
 }
 ```
 
+UITableView の header の高さに AutoLayout を反映させたい場合は以下のような処理を実行する。 header の高さが変動するような処理を行ったらこの処理を実行して高さの変化を反映させる。
+```swift
+private func sizeHeaderToFit() {
+    guard let headerView = tableView.tableHeaderView else { return }
+
+    headerView.setNeedsLayout()
+    headerView.layoutIfNeeded()
+
+    let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+    var frame = headerView.frame
+    frame.size.height = height
+    headerView.frame = frame
+
+    tableView.tableHeaderView = headerView
+}
+```
+
 ## UILabel
 UILabel 内に文字が入りきれなくなった場合にできるだけ全文を表示させたい時がある。その場合は文字サイズを小さくすることで対応が可能である。以下のように最大でどれくらいスケールダウンしてもよいかを指定する。
 ```swift
