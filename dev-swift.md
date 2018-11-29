@@ -354,6 +354,16 @@ xibView.frame = view.bounds
 view.addSubview(xibView)
 ```
 
+---
+
+class のインスタンス化に失敗する場合、 class file と Storyboard file の紐づけが正常にできていない可能性がある。その場合は以下のように `customModule="AkkeyTV" customModuleProvider="target"` が正常に追加されているかの確認を行う。
+```xml
+<!--TV View Controller-->
+<scene sceneID="cNt-09-DWp">
+    <objects>
+        <viewController id="5Wt-BC-mVB" customClass="TVViewController" customModule="AkkeyTV" customModuleProvider="target" sceneMemberID="viewController">
+```
+
 ## Animation
 AutoLayout を用いて制約をつけているパーツをアニメーションさせる場合、 `self.view.layoutIfNeeded()` を呼ぶ必要がある。
 ```swift
