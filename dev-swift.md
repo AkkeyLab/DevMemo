@@ -177,6 +177,32 @@ DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
 ```
 参考：[[Swift 3] Swift 3時代のGCDの基本的な使い方](https://dev.classmethod.jp/smartphone/iphone/swift-3-how-to-use-gcd-api-1/)
 
+---
+
+非同期処理の一つとして、 Json ファイルを文字列URLで取得して Data 型に変換する例を以下に示す。
+```swift
+guard let url = URL(string: "https://akkeylab.com/animation.json") else { return }
+url.asyncDownload { data, response, error in
+    guard
+        let data = data,
+        let dict = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else {
+            return
+    }
+    DispatchQueue.main.async {
+        // 使用例（Lottie）
+        self.animationView.setAnimation(json: dict)
+    }
+}
+
+private extension URL {
+    func asyncDownload(completion: @escaping (_ data: Data?, _ response: URLResponse?, _ error: Error?) -> ()) {
+        URLSession.shared.dataTask(with: self) {
+            completion($0, $1, $2)
+            }.resume()
+    }
+}
+```
+
 ## クロージャ
 非同期処理が完了もしくは失敗した段階で値を返したい場合がある。このような場合はクロージャを用いて実現する。
 ```swift
