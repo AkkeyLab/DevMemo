@@ -335,6 +335,17 @@ class EnumUsingTest {
 EnumUsingTest().main()
 ```
 
+---
+
+Swift 4.2 から enum の全件数を取得することができる。
+```swift
+enum Fruits: CaseIterable {
+    case apple, orange, banana
+}
+
+Fruits.allCases.count
+```
+
 ## StackView
 コード側から StackView に追加した button を削除するには二段階の remove が必要になる。まず、 StackView から削除対象の button を `removeArrangedSubview` で削除する。次に、削除対象の button に対して `removeFromSuperview` を呼ぶ必要がある。また、 StackView から対象の button を探す場合は `flatMap` を使用する方法がある。
 ```swift
