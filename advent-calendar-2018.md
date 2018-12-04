@@ -2,7 +2,7 @@
 
 # Swift Tips BOX
 この記事は[CyberAgent Developers Advent Calendar 2018](https://adventar.org/calendars/2951) 5日目の記事です。
-マッチングエージェントで恋活アプリ[タップル誕生](https://tapple.me)のiOS版を開発している板谷（[@AkkeyLab](https://github.com/AkkeyLab)）です。今年の春に新卒で入社しました。
+マッチングエージェントで恋活アプリ[タップル誕生](https://tapple.me)の iOS 版を開発している板谷（[@AkkeyLab](https://github.com/AkkeyLab)）です。今年の春に新卒で入社しました。
 
 今回は日々の学びを Swift Tips として紹介したいと思います。
 なお、内容に関しては弊社で取り入れているものだけでなく、個人アプリ開発で利用しているものも含みます。よって、個人的な意見を含みますので、ご理解いただいた上で読んでいただければ幸いです。
