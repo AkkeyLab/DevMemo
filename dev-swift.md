@@ -37,6 +37,17 @@ if data.apple.isEmpty == false && data.swift.isEmpty == false && data.isAkkey ==
 }
 ```
 
+上記では可読性の観点で取り上げたが、この使い分けは真偽判定対象が nil 許容型であるかでも必要になってくる。
+```swift
+if view?.isHidden == true {
+  //
+}
+
+if view!.isHidden {
+  //
+}
+```
+
 ## アクセス修飾子
 アクセス修飾子 | 挙動
 ----- | -----
