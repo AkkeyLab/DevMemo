@@ -764,3 +764,10 @@ addSubview(view)
 bringSubview(toFront: view) // 前面に移動
 sendSubview(toBack: view) // 背面に移動
 ```
+
+---
+
+Swift 4.2 からは真偽値を判定させる `toggle` が準備されています。
+```swift
+view.isHidden.toggle()
+```
