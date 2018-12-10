@@ -423,6 +423,19 @@ UIView.animate(withDuration: 0.5, animations: {
 }, completion: nil)
 ```
 
+---
+
+UIView の layer にはアニメーション速度を調整する `speed` がある。例えばこれを 2.0 と設定するとその View 上で行われる動作速度全てが 2 倍となる。
+以下のように記述することで画面遷移のアニメーション速度を変更することができる。
+```swift
+let vc = ViewController.create()
+vc.modalTransitionStyle = .crossDissolve
+vc.view.layer.speed = 0.5
+self.present(vc, animated: true, completion: {
+    vc.view.layer.speed = 1.0 // もとに戻す
+})
+```
+
 ## UIPickerView
 UITextField に UIPickerView での変更をリアルタイムで反映させる表示方法を簡単に実現することができる。**UITextField** の inputView に UIPickerView を設定することで実現可能である。
 ```swift
