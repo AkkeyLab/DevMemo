@@ -551,6 +551,14 @@ private func sizeHeaderToFit() {
 }
 ```
 
+上記の方法では正常に高さが求まらないケースがある。その場合は、横幅を指定して高さを AutoLayout で計算させるようにすると良い。変更箇所を以下に示す。
+```swift
+// 変更前
+let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+// 変更後
+let height = headerView.systemLayoutSizeFitting(CGSize(width: UIScreen.main.bounds.width, height: 0)).height
+```
+
 ## UILabel
 UILabel 内に文字が入りきれなくなった場合にできるだけ全文を表示させたい時がある。その場合は文字サイズを小さくすることで対応が可能である。以下のように最大でどれくらいスケールダウンしてもよいかを指定する。
 ```swift
