@@ -792,3 +792,20 @@ Swift 4.2 からは真偽値を判定させる `toggle` が準備されている
 ```swift
 view.isHidden.toggle()
 ```
+
+---
+
+UIView の初期化処理を一箇所にする方法として `layoutSubviews()` を override するという方法がある。しかし、何度も呼ばれるため、処理内容によっては不向きな場合がある。その対処方法を以下に示す。これで、一度だけ呼び出されるようになる。
+```swift
+class AkkeyView: UIView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setup?()
+    }
+
+    private lazy var setup: (()->())? = {
+        // init process
+        return nil
+    }()
+}
+```
