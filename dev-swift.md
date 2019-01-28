@@ -357,6 +357,40 @@ enum Fruits: CaseIterable {
 Fruits.allCases.count
 ```
 
+---
+
+enum が値付きの場合、パターン比較で通常イコールを利用することはできない。しかし、 `Equatable` とすることで比較が可能になる。
+
+```swift
+private enum DeviceType {
+    case iPhone
+    case iPad
+    case none(String)
+}
+
+let type: DeviceType = .iPhone
+switch type {
+case .iPhone:
+    break
+case .iPad:
+    break
+case .none:
+    break
+}
+if type == .iPhone {} // Binary operator '==' cannot be applied to operands of type 'DeviceType' and '_'
+```
+
+```swift
+private enum DeviceType: Equatable {
+    case iPhone
+    case iPad
+    case none(String)
+}
+if type == .iPhone {
+    // OK
+}
+```
+
 ## StackView
 コード側から StackView に追加した button を削除するには二段階の remove が必要になる。まず、 StackView から削除対象の button を `removeArrangedSubview` で削除する。次に、削除対象の button に対して `removeFromSuperview` を呼ぶ必要がある。また、 StackView から対象の button を探す場合は `flatMap` を使用する方法がある。
 ```swift
