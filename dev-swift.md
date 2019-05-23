@@ -287,6 +287,15 @@ createData(name: "AKIO", number: 8) // "AKIO | 8 | nil"
 createData(name: "AKIO", number: 8, plus: "OK") // "AKIO | 8 | OK"
 ```
 
+戻り値を利用しない利用方法を許容する場合は以下のようにアノテーションを付けることで、戻り値未使用の警告を無効化することができる。
+```swift
+@discardableResult
+func retake() -> AKObject {
+    // do something
+    return AKObject()
+}
+```
+
 ## protocol
 protocol は extension で拡張することができる。この機能を利用することで、ある Class に対して外部からメソッドを追加するという仕組みを実現することができる。
 ```swift
@@ -841,5 +850,26 @@ class AkkeyView: UIView {
         // init process
         return nil
     }()
+}
+```
+
+---
+
+ユニークな文字列を利用したいときに便利な関数も準備されている。
+```swift
+let string = UUID().uuidString
+```
+
+便利な処理などを抽象化・分離する場合は protocol を使って以下のように実装することができる。
+```swift
+protocol DialogShowable {
+    var value: ValueObject { get }
+    func show(type: DialogType)
+}
+
+extension DialogShowable where Self: UIViewController {
+    // do something
+    let vc = DialogViewController.create()
+    self.present(vc, animated: true)
 }
 ```
